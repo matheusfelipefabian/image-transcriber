@@ -14,6 +14,12 @@ const transcribeImage = async () => {
     isTranscribing.value = false;
 };
 
+const emitUpdateShowStatistics = () => {
+    emit('updateShowStatistics');
+};
+
+const emit = defineEmits(['updateShowStatistics']);
+
 </script>
 
 <template>
@@ -34,7 +40,11 @@ const transcribeImage = async () => {
                     <span v-if="isTranscribing">Transcribing...</span>
                     <span v-else>Transcribe</span>
                 </button>
-                <button class="btn btn-primary">
+                <button
+                    :disabled="image.text == ''"
+                    class="btn btn-primary"
+                    @click="emitUpdateShowStatistics"
+                >
                     Show Statistics
                 </button>
                 <button
