@@ -14,12 +14,21 @@ const transcribeImage = async () => {
     isTranscribing.value = false;
 };
 
+const downloadText = () => {
+    const blob = new Blob([image.value.text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'transcription.txt';
+    link.click();
+    URL.revokeObjectURL(url);
+};
+
 const emitUpdateShowStatistics = () => {
     emit('updateShowStatistics');
 };
 
 const emit = defineEmits(['updateShowStatistics']);
-
 </script>
 
 <template>
@@ -48,7 +57,9 @@ const emit = defineEmits(['updateShowStatistics']);
                     Show Statistics
                 </button>
                 <button
+                    :disabled="image.text == ''"
                     class="btn btn-primary"
+                    @click="downloadText"
                 >
                     Download
                 </button>
